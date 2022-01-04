@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/inspire-education/dev-axcelerate-api/issues"
   },
-  "homepage": "https://github.com/inspire-education/dev-axcelerate-api#readme"
+  "homepage": "https://github.com/inspire-education/dev-axcelerate-api#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
 }
