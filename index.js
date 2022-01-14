@@ -7,8 +7,11 @@ const port = process.env.PORT || 8000;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-
+// Import all route files
 const enrolmentRouter = require('./routes/enrolment');
-app.use('/course/enrol', enrolmentRouter );
+const contactRouter = require('./routes/contact');
+
+app.use('/enrolment', enrolmentRouter );
+app.use('/contact', contactRouter);
 
 app.listen( port, () => { console.log(`Application is running on port ${port}.`)} );

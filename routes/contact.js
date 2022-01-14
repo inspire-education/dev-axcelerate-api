@@ -7,15 +7,26 @@ const router  = express.Router();
     @params     JobReadyID / HistoricalClientID ( Axcelerate Field )
     @return     clientID
 */
+
+const requestConfig = {
+    headers : {
+        apitoken : process.env.STAGING_APITOKEN,
+        wstoken  : process.env.STAGING_WSTOKEN
+    }
+}
+
+/** 
+ *  @params fieldToCheck String  
+ *  @params fieldValue   String
+ */
 router.get('/userExists', ( request, response ) => {
-    const fieldToCheck = 'historicalClientId';
      
     const userExists   = async () => {
         try {
             /**   
              *  @returns Array  
              */
-            return await axios.get( `${process.env.STAGING_BASEURL}?${fieldToCheck}=${request.body.historicalClientID}` );
+            return await axios.get( `${process.env.STAGING_BASEURL}/contacts/search?${request.body.fieldToCheck}=${request.body.fieldValue}`, requestConfig );
         }catch(e){
             /* Returns the error from the GET request */
             console.error( e );
@@ -24,7 +35,14 @@ router.get('/userExists', ( request, response ) => {
 
     const checkFunction = async () => {
         const responseUserExists = userExists().then( res => {
-            console.log( res );
+            /* 
+                If user exists, we get the contactID for the enrollment
+                If user does not exist, we proceed on creating a new contact on aXcelerate 
+            */
+
+            if( res.data.length > 0 ){ response.send( { contactID: res.data[0].CONTACTID }); }
+            else{ response.send(false); }
+
         }).catch( error => response.send( { e : error }) )
     }
 
@@ -32,7 +50,9 @@ router.get('/userExists', ( request, response ) => {
 });
 
 router.post('/', ( request, response ) => {
-    const newContact = {};
+    const newContact = {
+        firstName: request.body.firstName
+    };
 });
 
 module.exports = router;
