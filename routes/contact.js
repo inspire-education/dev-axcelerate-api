@@ -21,7 +21,7 @@ const requestConfig = {
  */
 router.get('/userExists', ( request, response ) => {
      
-    const userExists   = async () => {
+    const userExists = async () => {
         try {
             /**   
              *  @returns Array  
@@ -50,9 +50,36 @@ router.get('/userExists', ( request, response ) => {
 });
 
 router.post('/', ( request, response ) => {
-    const newContact = {
-        firstName: request.body.firstName
-    };
+
+    let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
+
+    if( request.body ){
+        requestUrl += '?';
+
+        for (const key of Object.keys(request.body)) {
+            requestUrl = requestUrl + key + '=' + request.body[key] + '&';
+        }
+    }
+
+    const userCreate = async () => {
+        try {
+            /**   
+             *  @returns Array  
+             */
+            return await axios.post( requestUrl , {}, requestConfig );
+        }catch(e){
+            /* Returns the error from the GET request */
+            console.error( e );
+        }
+    }
+
+    const createFunction = async () => {
+        const responseCreateUser = userCreate().then( res => {
+            response.send( { contactID: res.data.CONTACTID } );
+        });
+    }
+
+    createFunction();
 });
 
 module.exports = router;
