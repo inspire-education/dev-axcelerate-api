@@ -11,25 +11,21 @@ const requestConfig = {
 
 router.post('/', ( request, response ) => {
 
-    const newEnrolment = { 
-        contactID:  request.body.contactID, 
-        instanceID: request.body.instanceID,
-        type: 'p'
-    }    
-
     const sendEnrolment = async () => {
         try {
-            return await axios.post( `${process.env.STAGING_BASEURL}/course/enrol`, newEnrolment, requestConfig );
+            return await axios.post( `${process.env.STAGING_BASEURL}/course/enrol?contactID=${request.body.contactID}&instanceID=${request.body.instanceID}&type=p`, null , requestConfig );
         }catch(e){
             /* Returns the error from the POST call */
-            console.error( e );
+            response.send( { error: e.message } );
         }
     } 
 
     const newEnrolmentFunction = async () => {
         const responseNewEnrolment = sendEnrolment().then( res => {
-            response.send( res );
-        }).catch( error => response.send( { e : error }) )
+
+            response.send( res.data );
+        
+        }).catch( error => response.send( { e : true }) )
     }
 
     newEnrolmentFunction();
