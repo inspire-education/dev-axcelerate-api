@@ -15,6 +15,37 @@ const requestConfig = {
     }
 }
 
+
+router.get('/:contactID', ( request, response ) => {
+
+    const fetchUser = async () => {
+        try {
+            /**   
+             *  @returns Array  
+             */
+            return await axios.get( `${process.env.STAGING_BASEURL}/contacts/${request.params.contactID}`, requestConfig );
+        }catch(e){
+            /* Returns the error from the GET request */
+            console.error( e );
+        }
+    }
+
+    const fetchUserFunction = async () => {
+        const responseFetchUser = fetchUser().then( res => {
+            /* 
+                If user exists, we get the contactID for the enrollment
+                If user does not exist, we proceed on creating a new contact on aXcelerate 
+            */
+
+            if( res.data.length > 0 ){ response.send( { contactID: res.data[0].CONTACTID }); }
+            else{ response.send(false); }
+
+        }).catch( error => response.send( { e : error }) )
+    }
+
+    fetchUserFunction();
+});
+
 /** 
  *  @params fieldToCheck String  
  *  @params fieldValue   String

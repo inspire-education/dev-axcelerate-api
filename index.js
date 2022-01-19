@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 const enrolmentRouter = require('./routes/enrolment');
 const contactRouter = require('./routes/contact');
 
-app.use('/enrolment', enrolmentRouter );
-app.use('/contact', contactRouter);
+app.use('/enrolments', enrolmentRouter );
+app.use('/contacts', contactRouter);
 
 app.listen( port, () => { console.log(`Application is running on port ${port}.`)} );
