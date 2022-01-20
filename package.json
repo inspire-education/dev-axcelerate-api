@@ -1,0 +1,31 @@
+{
+  "name": "dev-axcelerate-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/inspire-education/dev-axcelerate-api.git"
+  },
+  "keywords": [
+    "nodejs",
+    "axcelerate",
+    "api"
+  ],
+  "author": "JC Azcarraga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/inspire-education/dev-axcelerate-api/issues"
+  },
+  "homepage": "https://github.com/inspire-education/dev-axcelerate-api#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2"
+  }
+}
