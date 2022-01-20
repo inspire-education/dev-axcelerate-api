@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 const enrolmentRouter = require('./routes/enrolment');
 const contactRouter = require('./routes/contact');
 
+app.get('/', (request, response) =>{ response.send('Welcome to Axcelerate API by Inspire Education'); })
+
 app.use('/enrolments', enrolmentRouter );
 app.use('/contacts', contactRouter);
 
