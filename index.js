@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const app  = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 80;
+const hostname = 'http://122.248.210.190';
 
 /* Parsing request body */
 const bodyParser = require('body-parser');
@@ -16,4 +17,4 @@ app.get('/', (request, response) =>{ response.send('Welcome to Axcelerate API by
 app.use('/enrolments', enrolmentRouter );
 app.use('/contacts', contactRouter);
 
-app.listen( port, () => { console.log(`Application is running on port ${port}.`)} );
+app.listen( port, hostname,  () => { console.log(`Application is running on port ${port}.`)} );
