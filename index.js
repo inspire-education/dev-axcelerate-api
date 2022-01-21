@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app  = express();
 const port = process.env.PORT || 80;
-const hostname = '122.248.210.190';
+const hostname = 'http://122.248.210.190';
 
 /* Parsing request body */
 const bodyParser = require('body-parser');
