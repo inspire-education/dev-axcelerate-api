@@ -18,6 +18,7 @@ const requestConfig = {
 
 router.get('/:contactID', ( request, response ) => {
 
+    console.log( request );
     const fetchUser = async () => {
         try {
             /**   
@@ -52,6 +53,7 @@ router.get('/:contactID', ( request, response ) => {
  */
 router.get('/userExists', ( request, response ) => {
      
+    console.log( request );
     const userExists = async () => {
         try {
             /**   
@@ -82,6 +84,7 @@ router.get('/userExists', ( request, response ) => {
 
 router.post('/', ( request, response ) => {
 
+    console.log( request );
     let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
 
     if( request.body ){
