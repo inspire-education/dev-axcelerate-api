@@ -36,7 +36,7 @@ router.put('/updateCompetency', (request, response) => {
 
     const updateEnrolment = async () => {
         try {
-            return await axios.post( `${process.env.STAGING_BASEURL}/course/enrolment?contactID=${request.body.contactID}&instanceID=${request.body.instanceID}&classID=${request.body.classID}&competent=${request.body.competent}&type=s`, null , requestConfig );
+            return await axios.put( `${process.env.STAGING_BASEURL}/course/enrolment?contactID=${request.body.contactID}&instanceID=${request.body.instanceID}&classID=${request.body.classID}&competent=${request.body.competent}&type=s`, null , requestConfig );
         }catch(e){
             /* Returns the error from the POST call */
             response.send( { error: e.message } );
