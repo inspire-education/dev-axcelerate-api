@@ -45,7 +45,7 @@ router.put('/updateCompetency', (request, response) => {
 
     const updateEnrolmentFunction = async () => {
         const responseUpdateEnrolment = updateEnrolment().then( res => {
-            console.log( res );
+            response.send( { message: res.data.MSG });
         }).catch( error => response.send( { e: error }));
     }
 
