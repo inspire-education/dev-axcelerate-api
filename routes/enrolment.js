@@ -2,6 +2,8 @@ const express = require('express');
 const axios   = require('axios');
 const router  = express.Router();
 
+const courseUnitLookup = require('../data/course_unit_lookup.json');
+
 const requestConfig = {
     headers : {
         apitoken : process.env.STAGING_APITOKEN,
@@ -34,9 +36,24 @@ router.post('/', ( request, response ) => {
 
 router.put('/updateCompetency', (request, response) => {
 
+    /** 
+     *  classID    - Hub Course ID
+     *  contactID  - Hub User ID 
+     *  instanceID - Unit ID
+    **/
+
     const updateEnrolment = async () => {
         try {
-            return await axios.put( `${process.env.STAGING_BASEURL}/course/enrolment?contactID=${request.body.contactID}&instanceID=${request.body.instanceID}&classID=${request.body.classID}&competent=${request.body.competent}&type=s`, null , requestConfig );
+
+            const course = courseUnitLookup.find( course => { 
+                return course.courseID === request.params.courseID
+            });
+
+            const unit = course.unitsOfCompetencies( ( unitCode, instance ) => {
+                if( unitCode === request.body.unit ){ return instance; }
+            });
+
+            return await axios.put( `${process.env.STAGING_BASEURL}/course/enrolment?contactID=${request.body.contactID}&instanceID=${instance}&classID=${course.classID}&competent=${request.body.competent}&type=s`, null , requestConfig );
         }catch(e){
             /* Returns the error from the POST call */
             response.send( { error: e.message } );

@@ -82,6 +82,46 @@ router.get('/userExists', ( request, response ) => {
     checkFunction();
 });
 
+/**  
+ *  Gets contact's enrolment details
+ *  @params 
+ *  @returns integer classID for specified Hub Course  
+**/
+router.get('/enrolments/:contactID', (request, response)=>{
+    const getEnrolment = async () => {
+        try {
+            /**   
+             *  @returns Array  
+             */
+            return await axios.get( `${process.env.STAGING_BASEURL}/contact/enrolments/${ request.params.contactID }`, requestConfig );
+        }catch(e){
+            /* Returns the error from the GET request */
+            console.error( e );
+        }
+    }
+
+    const getEnrolmentFunction = async () => {
+        const responseGetEnrolment = getEnrolment().then( res => {
+            /* 
+                If user exists, we get the contactID for the enrollment
+                If user does not exist, we proceed on creating a new contact on aXcelerate 
+            */
+
+            if( res.data.length > 0 ){ 
+                const contactEnrolment = res.data.filter( enrolment => {
+                    return enrolment.ACTIVITYTYPE === request.body.courseName
+                })
+
+                response.send({ classID: contactEnrolment.INSTANCEID });
+            }
+            else{ response.send(false); }
+
+        }).catch( error => response.send( { e : error }) )
+    }
+
+    checkFunction();
+});
+
 router.post('/', ( request, response ) => {
 
     console.log( request );
