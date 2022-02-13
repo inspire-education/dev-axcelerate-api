@@ -53,7 +53,7 @@ router.get('/:contactID', ( request, response ) => {
  */
 router.get('/userExists', ( request, response ) => {
      
-    console.log( request );
+    console.log( request.body );
     const userExists = async () => {
         try {
             /**   
