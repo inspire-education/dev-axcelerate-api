@@ -51,7 +51,7 @@ router.get('/:contactID', ( request, response ) => {
  *  @params fieldToCheck String  
  *  @params fieldValue   String
  */
-router.get('/userExists', ( request, response ) => {
+router.post('/userExists', ( request, response ) => {
      
     console.log( request.body );
     const userExists = async () => {
