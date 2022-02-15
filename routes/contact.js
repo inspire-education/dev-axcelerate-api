@@ -124,13 +124,13 @@ router.get('/enrolments/:contactID', (request, response)=>{
 
 router.post('/', ( request, response ) => {
 
-    console.log( request );
+    console.log( request.body );
     let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
 
     if( request.body.data ){
         requestUrl += '?';
 
-        for (const key of Object.keys(request.body)) {
+        for (const key of Object.keys(request.body.data)) {
             requestUrl = requestUrl + key + '=' + request.body[key] + '&';
         }
     }
