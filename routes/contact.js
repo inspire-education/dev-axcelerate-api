@@ -74,7 +74,7 @@ router.post('/userExists', ( request, response ) => {
             */
 
             if( res.data.length > 0 ){ response.send( { contactID: res.data[0].CONTACTID }); }
-            else{ response.send(false); }
+            else{ response.send( { contactID: false } ); }
 
         }).catch( error => response.send( { e : error }) )
     }
@@ -127,7 +127,7 @@ router.post('/', ( request, response ) => {
     console.log( request );
     let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
 
-    if( request.body ){
+    if( request.body.data ){
         requestUrl += '?';
 
         for (const key of Object.keys(request.body)) {
