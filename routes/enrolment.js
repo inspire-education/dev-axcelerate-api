@@ -34,7 +34,7 @@ router.post('/', ( request, response ) => {
 });
 
 
-router.put('/updateCompetency', (request, response) => {
+router.post('/updateCompetency', (request, response) => {
 
     /** 
      *  classID    - Hub Course ID
