@@ -41,19 +41,10 @@ router.put('/updateCompetency', (request, response) => {
      *  contactID  - Hub User ID 
      *  instanceID - Unit ID
     **/
-
+    console.log( request.body );
     const updateEnrolment = async () => {
         try {
-
-            const course = courseUnitLookup.find( course => { 
-                return course.courseID === request.params.courseID
-            });
-
-            const unit = course.unitsOfCompetencies( ( unitCode, instance ) => {
-                if( unitCode === request.body.unit ){ return instance; }
-            });
-
-            return await axios.put( `${process.env.STAGING_BASEURL}/course/enrolment?contactID=${request.body.contactID}&instanceID=${instance}&classID=${course.classID}&competent=${request.body.competent}&type=s`, null , requestConfig );
+            return await axios.put( `${process.env.STAGING_BASEURL}/course/enrolment?contactID=${request.body.contactID}&instanceID=${request.body.unit}&classID=${request.body.courseID}&competent=${request.body.competent}&type=s`, null , requestConfig );
         }catch(e){
             /* Returns the error from the POST call */
             response.send( { error: e.message } );
@@ -62,6 +53,7 @@ router.put('/updateCompetency', (request, response) => {
 
     const updateEnrolmentFunction = async () => {
         const responseUpdateEnrolment = updateEnrolment().then( res => {
+            console.log( res );
             response.send( { message: res.data.MSG });
         }).catch( error => response.send( { e: error }));
     }
