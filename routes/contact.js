@@ -72,6 +72,7 @@ router.post('/userExists', ( request, response ) => {
                 If user exists, we get the contactID for the enrollment
                 If user does not exist, we proceed on creating a new contact on aXcelerate 
             */
+            console.log(res.data);
 
             if( res.data.length > 0 ){ response.send( { contactID: res.data[0].CONTACTID }); }
             else{ response.send( { contactID: false } ); }
