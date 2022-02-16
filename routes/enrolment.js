@@ -41,6 +41,7 @@ router.post('/updateCompetency', (request, response) => {
      *  contactID  - Hub User ID 
      *  instanceID - Unit ID
     **/
+    console.log("Update Competency");
     console.log( request.body );
     const updateEnrolment = async () => {
         try {
