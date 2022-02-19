@@ -13,6 +13,7 @@ const requestConfig = {
 
 router.post('/', ( request, response ) => {
 
+    console.log( request.body );
     const sendEnrolment = async () => {
         try {
             return await axios.post( `${process.env.STAGING_BASEURL}/course/enrol?contactID=${request.body.contactID}&instanceID=${request.body.instanceID}&type=p`, null , requestConfig );
