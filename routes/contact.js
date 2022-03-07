@@ -125,16 +125,16 @@ router.post('/', ( request, response ) => {
     console.log( request.body );
     let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
 
-    // if( request.body.data ){
-    //     requestUrl += '?';
+    if( request.body.data ){
+        requestUrl += '?';
 
-    //     for (const key of Object.keys(request.body.data)) {
-    //         requestUrl = requestUrl + key + '=' + request.body.data[key] + '&';
-    //     }
-    // }
+        for (const key of Object.keys(request.body.data)) {
+            requestUrl = requestUrl + key + '=' + request.body.data[key] + '&';
+        }
+    }
 
     /* Test Value */
-    requestUrl += '?givenName=QATest003&emailAddress=qa003@email.com';
+    // requestUrl += '?givenName=QATest003&emailAddress=qa003@email.com';
 
     const userCreate = async () => {
         try {
