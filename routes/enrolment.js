@@ -2,8 +2,6 @@ const express = require('express');
 const axios   = require('axios');
 const router  = express.Router();
 
-const courseUnitLookup = require('../data/course_unit_lookup.json');
-
 const requestConfig = {
     headers : {
         apitoken : process.env.STAGING_APITOKEN,
@@ -20,7 +18,7 @@ router.post('/', ( request, response ) => {
         }catch(e){
             /* Returns the error from the POST call */
             console.log("error");
-            return response.send( { error: e.message } );
+            return e;
         }
     } 
 
