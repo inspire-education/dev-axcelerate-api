@@ -125,7 +125,7 @@ router.post('/', ( request, response ) => {
     console.log( request.body );
     let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
 
-    if( request.body.data ){
+    if( request.body ){
         requestUrl += '?';
 
         for (const key of Object.keys(request.body)) {
