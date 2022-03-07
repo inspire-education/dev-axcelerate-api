@@ -24,7 +24,7 @@ router.post('/', ( request, response ) => {
 
     const newEnrolmentFunction = async () => {
         const responseNewEnrolment = sendEnrolment().then( res => {
-            return response.send( res.data );
+            response.send( res.data );
         }).catch( error => response.send( { e : true }) )
     }
 
