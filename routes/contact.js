@@ -128,8 +128,8 @@ router.post('/', ( request, response ) => {
     if( request.body.data ){
         requestUrl += '?';
 
-        for (const key of Object.keys(request.body.data)) {
-            requestUrl = requestUrl + key + '=' + request.body.data[key] + '&';
+        for (const key of Object.keys(request.body)) {
+            requestUrl = requestUrl + key + '=' + request.body[key] + '&';
         }
     }
 
