@@ -17,8 +17,7 @@ router.post('/', ( request, response ) => {
             return await axios.post( `${process.env.STAGING_BASEURL}/course/enrol?contactID=${request.body.data.contactID}&instanceID=${request.body.data.classID}&type=p`, null , requestConfig );
         }catch(e){
             /* Returns the error from the POST call */
-            console.log(e);
-            return e;
+            response.send({ error: e });
         }
     } 
 
