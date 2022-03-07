@@ -14,7 +14,7 @@ router.post('/', ( request, response ) => {
     console.log( request.body );
     const sendEnrolment = async () => {
         try {
-            return await axios.post( `${process.env.STAGING_BASEURL}/course/enrol?contactID=${request.body.data.contactID}&instanceID=${request.body.data.classID}&type=p`, null , requestConfig );
+            return await axios.post( `${process.env.STAGING_BASEURL}/course/enrol?contactID=${request.body.contactID}&instanceID=${request.body.classID}&type=p`, null , requestConfig );
         }catch(e){
             /* Returns the error from the POST call */
             return response.send({ error: e });
@@ -24,6 +24,7 @@ router.post('/', ( request, response ) => {
 
     const newEnrolmentFunction = async () => {
         const responseNewEnrolment = sendEnrolment().then( res => {
+            console.log( res );
             response.send( res.data );
         }).catch( error => response.send( { e : true }) )
     }
