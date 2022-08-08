@@ -88,16 +88,16 @@ router.post('/userExists', ( request, response ) => {
  *  @params 
  *  @returns integer classID for specified Hub Course  
 **/
-router.get('/enrolments/:contactID', (request, response)=>{
+router.post('/enrolments', (request, response)=>{
 
-    console.log(`GET -- /enrolments/${ request.params.contactID } ${ Date.now() }`); 
+    console.log(`GET -- /enrolments/${ request.body.contactID } ${ Date.now() }`); 
 
     const getEnrolment = async () => {
         try {
             /**   
              *  @returns Array  
              */
-            return await axios.get( `${process.env.STAGING_BASEURL}/contact/enrolments/${ request.params.contactID }`, requestConfig );
+            return await axios.get( `${process.env.STAGING_BASEURL}/contact/enrolments/${ request.body.contactID }`, requestConfig );
         }catch(e){
             /* Returns the error from the GET request */
             console.error( e );
@@ -112,7 +112,7 @@ router.get('/enrolments/:contactID', (request, response)=>{
             */
             console.log( res );
             if( res.data.length > 0 ){ 
-                const contactEnrolment = res.data.filter( enrolment => {
+                const contactEnrolment = res.data.find( enrolment => {
                     return enrolment.ACTIVITYTYPE === request.body.courseName
                 })
 
