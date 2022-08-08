@@ -18,6 +18,8 @@ const requestConfig = {
 
 router.get('/:contactID', ( request, response ) => {
 
+    console.log(`GET -- /${ request.params.contactID } ${ Date.now() }`); 
+
     const fetchUser = async () => {
         try {
             /**   
@@ -87,6 +89,9 @@ router.post('/userExists', ( request, response ) => {
  *  @returns integer classID for specified Hub Course  
 **/
 router.get('/enrolments/:contactID', (request, response)=>{
+
+    console.log(`GET -- /enrolments/${ request.params.contactID } ${ Date.now() }`); 
+
     const getEnrolment = async () => {
         try {
             /**   
@@ -118,12 +123,14 @@ router.get('/enrolments/:contactID', (request, response)=>{
         }).catch( error => response.send( { e : error }) )
     }
 
-    checkFunction();
+    getEnrolmentFunction();
 });
 
 router.post('/', ( request, response ) => {
 
-    console.log( request.body );
+    console.log(`POST -- / ${ Date.now() }`);
+    console.log(`REQUEST BODY -- / ${ request.body }`);
+
     let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
 
     if( request.body ){
