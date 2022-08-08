@@ -24,7 +24,7 @@ router.get('/:contactID', ( request, response ) => {
             /**   
              *  @returns Array  
              */
-            return await axios.get( `${process.env.STAGING_BASEURL}/contacts/${request.params.contactID}`, requestConfig );
+            return await axios.get( `${process.env.STAGING_BASEURL}/contact/${request.params.contactID}`, requestConfig );
         }catch(e){
             /* Returns the error from the GET request */
             console.error( e );
