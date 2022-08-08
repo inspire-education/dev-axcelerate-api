@@ -51,7 +51,9 @@ router.get('/:contactID', ( request, response ) => {
  *  @params fieldValue   String
  */
 router.post('/userExists', ( request, response ) => {
-    console.log(`GET -- /userExists ${ Date.now() }`); 
+
+    console.log(`POST -- /userExists ${ Date.now() }`); 
+
     const userExists = async () => {
         try {
             /**   
@@ -70,7 +72,6 @@ router.post('/userExists', ( request, response ) => {
                 If user exists, we get the contactID for the enrollment
                 If user does not exist, we proceed on creating a new contact on aXcelerate 
             */
-            console.log( res );
             if( !res.data.error ){ response.send( { contactID: res.data[0].CONTACTID }); }
             else{ response.send( { contactID: false } ); }
 
