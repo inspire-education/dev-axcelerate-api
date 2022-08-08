@@ -18,7 +18,6 @@ const requestConfig = {
 
 router.get('/:contactID', ( request, response ) => {
 
-    console.log( request );
     const fetchUser = async () => {
         try {
             /**   
@@ -38,7 +37,7 @@ router.get('/:contactID', ( request, response ) => {
                 If user does not exist, we proceed on creating a new contact on aXcelerate 
             */
 
-            if( typeof res.data === 'Object' ){ response.send( { contactID: res.data.CONTACTID }); }
+            if( typeof res.data === 'object' ){ response.send( { contactID: res.data.CONTACTID }); }
             else{ response.send(false); }
 
         }).catch( error => response.send( { e : error }) )
