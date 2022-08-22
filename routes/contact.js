@@ -18,12 +18,14 @@ const requestConfig = {
 
 router.get('/:contactID', ( request, response ) => {
 
+    console.log(`GET -- /${ request.params.contactID } ${ Date.now() }`); 
+
     const fetchUser = async () => {
         try {
             /**   
              *  @returns Array  
              */
-            return await axios.get( `${process.env.STAGING_BASEURL}/contacts/${request.params.contactID}`, requestConfig );
+            return await axios.get( `${process.env.STAGING_BASEURL}/contact/${request.params.contactID}`, requestConfig );
         }catch(e){
             /* Returns the error from the GET request */
             console.error( e );
@@ -37,7 +39,7 @@ router.get('/:contactID', ( request, response ) => {
                 If user does not exist, we proceed on creating a new contact on aXcelerate 
             */
 
-            if( res.data.length > 0 ){ response.send( { contactID: res.data[0].CONTACTID }); }
+            if( typeof res.data === 'object' ){ response.send( { contactID: res.data.CONTACTID }); }
             else{ response.send(false); }
 
         }).catch( error => response.send( { e : error }) )
@@ -50,8 +52,10 @@ router.get('/:contactID', ( request, response ) => {
  *  @params fieldToCheck String  
  *  @params fieldValue   String
  */
-router.get('/userExists', ( request, response ) => {
-     
+router.post('/userExists', ( request, response ) => {
+
+    console.log(`POST -- /userExists ${ Date.now() }`); 
+
     const userExists = async () => {
         try {
             /**   
@@ -70,9 +74,8 @@ router.get('/userExists', ( request, response ) => {
                 If user exists, we get the contactID for the enrollment
                 If user does not exist, we proceed on creating a new contact on aXcelerate 
             */
-
-            if( res.data.length > 0 ){ response.send( { contactID: res.data[0].CONTACTID }); }
-            else{ response.send(false); }
+            if( !res.data.error ){ response.send( { contactID: res.data[0].CONTACTID }); }
+            else{ response.send( { contactID: false } ); }
 
         }).catch( error => response.send( { e : error }) )
     }
@@ -80,7 +83,53 @@ router.get('/userExists', ( request, response ) => {
     checkFunction();
 });
 
+/**  
+ *  Gets contact's enrolment details
+ *  @params 
+ *  @returns integer classID for specified Hub Course  
+**/
+router.post('/enrolments', (request, response)=>{
+
+    console.log(`GET -- /enrolments/${ request.body.contactID } ${ Date.now() }`); 
+
+    const getEnrolment = async () => {
+        try {
+            /**   
+             *  @returns Array  
+             */
+            return await axios.get( `${process.env.STAGING_BASEURL}/contact/enrolments/${ request.body.contactID }`, requestConfig );
+        }catch(e){
+            /* Returns the error from the GET request */
+            console.error( e );
+        }
+    }
+
+    const getEnrolmentFunction = async () => {
+        const responseGetEnrolment = getEnrolment().then( res => {
+            /* 
+                If user exists, we get the contactID for the enrollment
+                If user does not exist, we proceed on creating a new contact on aXcelerate 
+            */
+            console.log( res );
+            if( res.data.length > 0 ){ 
+                const contactEnrolment = res.data.find( enrolment => {
+                    return enrolment.ACTIVITYTYPE === request.body.courseName
+                })
+
+                response.send({ classID: contactEnrolment.INSTANCEID });
+            }
+            else{ response.send(false); }
+
+        }).catch( error => response.send( { e : error }) )
+    }
+
+    getEnrolmentFunction();
+});
+
 router.post('/', ( request, response ) => {
+
+    console.log(`POST -- / ${ Date.now() }`);
+    console.log(`REQUEST BODY -- / ${ request.body }`);
 
     let requestUrl = `${process.env.STAGING_BASEURL}/contact`;
 
@@ -91,6 +140,9 @@ router.post('/', ( request, response ) => {
             requestUrl = requestUrl + key + '=' + request.body[key] + '&';
         }
     }
+
+    /* Test Value */
+    // requestUrl += '?givenName=QATest003&emailAddress=qa003@email.com';
 
     const userCreate = async () => {
         try {
